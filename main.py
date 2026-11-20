@@ -205,6 +205,11 @@ def para(x, y, s, sc, c, max_chars, max_lines, lh=None):
 
 
 # ---------------------------------------------------------------- icons
+# Each icon is drawn from lines, discs and triangles inside a s x s box
+# at (x, y). The two weakest icons from the first render (gamepad and
+# speech bubbles, both read as blobs) are redrawn here with real shapes:
+# the pad gets a body, grips, a d-pad and buttons; the bubbles get
+# hollow rings so they read as two separate speech bubbles.
 def icon_clock(x, y, s, c):
     ring(x + s // 2, y + s // 2, s // 2 - 2, c, 3)
     line(x + s // 2, y + s // 2, x + s // 2, y + 8, c)
@@ -229,19 +234,26 @@ def icon_chart(x, y, s, c):
 
 
 def icon_pad(x, y, s, c):
-    rect(x + 4, y + s // 3, s - 8, s // 3 + 6, c)
-    disc(x + s // 4, y + s // 2, 4, PAPER)
-    disc(x + 3 * s // 4 - 4, y + s // 2 - 4, 3, PAPER)
-    disc(x + 3 * s // 4 + 4, y + s // 2 + 4, 3, PAPER)
+    # game controller: wide body, two grips, d-pad left, buttons right
+    rect(x + 6, y + s // 4, s - 12, s // 3 + 4, c)
+    disc(x + 12, y + 2 * s // 3, 7, c)
+    disc(x + s - 12, y + 2 * s // 3, 7, c)
+    rect(x + 14, y + s // 3 + 2, 4, 12, PAPER)
+    rect(x + 10, y + s // 3 + 6, 12, 4, PAPER)
+    disc(x + s - 22, y + s // 3 + 4, 3, PAPER)
+    disc(x + s - 14, y + s // 3 + 10, 3, PAPER)
 
 
 def icon_talk(x, y, s, c):
+    # two speech bubbles, offset diagonally, hollow so they stay distinct
     disc(x + s // 3, y + s // 3, s // 4, c)
+    disc(x + s // 3, y + s // 3, s // 4 - 4, PAPER)
     disc(x + 2 * s // 3, y + 2 * s // 3, s // 4, c)
-    tri(x + s // 3 - 4, y + s // 2, x + s // 3 + 8, y + s // 2,
-        x + s // 3 + 2, y + s - 6, c)
-    tri(x + 2 * s // 3 - 8, y + s // 2 + 6, x + 2 * s // 3 + 4,
-        y + s // 2 + 6, x + 2 * s // 3 - 2, y + 6, c)
+    disc(x + 2 * s // 3, y + 2 * s // 3, s // 4 - 4, PAPER)
+    tri(x + s // 3 - 2, y + s // 2 + 2, x + s // 3 + 10, y + s // 2 + 2,
+        x + s // 3 + 4, y + s - 8, c)
+    tri(x + 2 * s // 3 - 10, y + s // 2 + 8, x + 2 * s // 3 + 2,
+        y + s // 2 + 8, x + 2 * s // 3 - 4, y + 8, c)
 
 
 def icon_probe(x, y, s, c):
